@@ -19,7 +19,7 @@ jobs:
             package: macos-arm64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - uses: jurplel/install-qt-action@v4
         with:
           version: '6.11.0'
@@ -57,7 +57,7 @@ jobs:
         shell: bash
         run: tar -czf Wav-a-Whirl-1.1-${{ matrix.package }}-test.tar.gz -C package .
       - name: Upload downloadable test build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: Wav-a-Whirl-1.1-${{ matrix.package }}-test
           path: Wav-a-Whirl-1.1-${{ matrix.package }}-test.tar.gz
@@ -65,7 +65,7 @@ jobs:
           retention-days: 30
       - name: Save diagnostics
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: build-log-${{ matrix.os }}
           path: |
