@@ -1,4 +1,4 @@
-name: Desktop build checks
+name: Desktop test packages
 on:
   push:
   pull_request:
@@ -13,8 +13,10 @@ jobs:
         include:
           - os: ubuntu-24.04
             arch: linux_gcc_64
+            package: linux-x86_64
           - os: macos-14
             arch: clang_64
+            package: macos-arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -25,15 +27,43 @@ jobs:
           modules: 'qtmultimedia qtshadertools'
           cache: true
       - name: Configure application and regression tests
-        run: cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release -DWAV_BUILD_TESTS=ON
+        run: cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release -DWAV_BUILD_TESTS=ON -DWAV_DEPLOY_RUNTIME=ON -DCMAKE_INSTALL_LIBDIR=lib
       - name: Compile
         run: cmake --build build-ci --parallel 2
-      # Audio regression tests require native playback verification. A compile
-      # check is not evidence that audio devices and codecs work on this OS.
-      - name: Save configure diagnostics
+      - name: Bundle runtime and source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake --install build-ci --prefix "$PWD/package"
+          cp LICENSE release-notes/TESTING.md release-notes/DESKTOP-TEST-BUILDS.txt package/
+          git archive --format=tar.gz --output=package/Source.tar.gz HEAD
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            mv package/Main.app package/Wav-a-Whirl.app
+            codesign --force --deep --sign - package/Wav-a-Whirl.app
+            file package/Wav-a-Whirl.app/Contents/MacOS/Main
+          else
+            cp scripts/run-linux.sh package/Wav-a-Whirl.sh
+            chmod +x package/Wav-a-Whirl.sh
+          fi
+      - name: Check packaged startup
+        shell: bash
+        run: python3 scripts/check-packaged-startup.py package
+      - name: Archive test build
+        shell: bash
+        run: tar -czf Wav-a-Whirl-1.1-${{ matrix.package }}-test.tar.gz -C package .
+      - name: Upload downloadable test build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wav-a-Whirl-1.1-${{ matrix.package }}-test
+          path: Wav-a-Whirl-1.1-${{ matrix.package }}-test.tar.gz
+          if-no-files-found: error
+          retention-days: 30
+      - name: Save diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: configure-log-${{ matrix.os }}
-          path: build-ci/CMakeFiles/CMakeConfigureLog.yaml
+          name: build-log-${{ matrix.os }}
+          path: |
+            build-ci/CMakeFiles/CMakeConfigureLog.yaml
+            packaged-startup.log
           if-no-files-found: ignore

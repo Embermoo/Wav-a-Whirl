@@ -1,0 +1,20 @@
+Wav-a-Whirl 1.1 — desktop test builds
+
+Extract the archive completely before launching.
+
+macOS: Open Wav-a-Whirl.app. This build targets Apple Silicon (arm64).
+It is ad-hoc signed for testing, not Developer ID signed or notarized.
+macOS may require you to approve opening it in Privacy & Security.
+
+Linux: Run ./Wav-a-Whirl.sh from the extracted folder.
+Built on Ubuntu 24.04 x86_64. Start testing on Ubuntu 24.04 or newer;
+older distributions may lack compatible system libraries. A graphical desktop
+and working system audio are required.
+
+Qt libraries and media plugins are bundled. Do not separate files from the app.
+Source.tar.gz contains this build's application source. See LICENSE for GPLv3.
+Dependency license/source notices must be finalized before a public release.
+
+CI verifies compilation, packaging, and a brief offscreen startup. It does NOT
+verify audible playback, volume, codecs, or device behavior. Use TESTING.md to
+record native testing results.
