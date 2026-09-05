@@ -87,6 +87,6 @@ Release preparation:
   not claim native playback verification or produce portable
   Linux/macOS installers.
 - release-notes/TESTING.md is the native tester checklist.
-- Source is MIT licensed (see LICENSE). Before a public binary release, complete
+- Copyright (c) 2026 Embermoo. Source is licensed under GNU GPL version 3 only (GPL-3.0-only); see LICENSE. Before a public binary release, complete
   the dependency license/source notices. The local package is a test candidate,
   not a signed installer or a finished public release.

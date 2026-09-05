@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (c) 2026 Embermoo
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
