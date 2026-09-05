@@ -17,7 +17,11 @@ with tempfile.TemporaryDirectory() as home, open("packaged-startup.log", "w") as
                                stdout=log, stderr=subprocess.STDOUT)
     try:
         result = process.wait(timeout=5)
-        raise SystemExit(f"Packaged app exited before startup check finished: {result}")
+        log.flush()
+        details = pathlib.Path("packaged-startup.log").read_text(errors="replace")
+        details = details.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::error::Packaged startup exited {result}: {details}")
+        raise SystemExit(1)
     except subprocess.TimeoutExpired:
         print("Packaged application stayed running for five seconds.")
     finally:
