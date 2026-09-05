@@ -1,0 +1,6 @@
+/build*/
+/dist/
+/stage1-backup/
+/.qtcreator/
+*.user
+*.user.*

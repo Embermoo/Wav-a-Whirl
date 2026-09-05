@@ -1,0 +1,17 @@
+Wav-a-Whirl 1.1 — Windows test candidate
+
+Extract the entire ZIP, then open Wav-a-Whirl.exe.
+Keep the DLL files and plugin folders beside the executable.
+
+Choose an audio folder, set session duration and delays, then press Play.
+Zero delay plays clips back-to-back. Pause freezes the clip and session timer.
+Hard Stop ends playback immediately. The volume slider works while playing.
+
+Balance clip volume is optional. It analyzes the folder before playback and
+lowers louder clips toward the quietest non-silent clip. Originals are untouched.
+Very quiet recordings can make the whole folder quieter. Disable it before Play
+if you prefer the original levels.
+
+Settings are remembered on exit. Premium is only a joke; every feature is free.
+
+This Windows x64 package is unsigned. Linux/macOS are not yet verified.

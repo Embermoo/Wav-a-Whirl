@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Wav-a-Whirl</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <item>
+     <layout class="QGridLayout" name="controlsLayout">
+      <item row="0" column="0">
+       <layout class="QVBoxLayout" name="playbackLayout">
+        <item>
+         <widget class="QLabel" name="volumeLabel">
+          <property name="text">
+           <string>Volume: 100%</string>
+          </property>
+          <property name="buddy">
+           <cstring>volumeSlider</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="volumeSlider">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="accessibleName">
+           <string>Volume</string>
+          </property>
+          <property name="toolTip">
+           <string>Playback volume: 0% is silent, 100% is full volume.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="stopButton">
+          <property name="text">
+           <string>Hard Stop</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="pauseLayout">
+          <item>
+           <widget class="QPushButton" name="pauseButton">
+            <property name="text">
+             <string>Pause</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resumeButton">
+            <property name="text">
+             <string>Resume</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
+       <layout class="QVBoxLayout" name="timingLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Duration (minutes)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="duration">
+          <property name="maximum">
+           <number>86400</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="delayLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelMindelay">
+            <property name="text">
+             <string>Min delay (seconds)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="labelMaxdelay">
+            <property name="text">
+             <string>Max delay (seconds)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QSpinBox" name="minDelay">
+            <property name="maximum">
+             <number>86400</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="maxDelay">
+            <property name="maximum">
+             <number>86400</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="startLayout">
+          <item>
+           <widget class="QPushButton" name="selectFolder">
+            <property name="text">
+             <string>Select Folder</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="playButton">
+            <property name="text">
+             <string>Play</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="optionsLayout">
+      <item>
+       <widget class="QPushButton" name="premiumButton">
+        <property name="text"><string>Premium</string></property>
+        <property name="toolTip"><string>A very exclusive upgrade.</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="hideCheck">
+        <property name="text">
+         <string>Spoiler mode</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="normalizeCheck">
+        <property name="text">
+         <string>Balance clip volume</string>
+        </property>
+        <property name="toolTip">
+         <string>Analyze the folder and lower louder clips toward its quietest non-silent clip. Quiet clips are not boosted. Playback starts after analysis.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="folderDisplay">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string>No folder selected</string>
+      </property>
+      <property name="accessibleName">
+       <string>Selected audio folder</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="outputDisplay">
+    </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>507</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuRandom_Wav_PLayer">
+    <property name="title">
+     <string>Wav-a-Whirl</string>
+    </property>
+   </widget>
+   <addaction name="menuRandom_Wav_PLayer" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+ </widget>
+ <resources />
+ <connections />
+ <tabstops>
+  <tabstop>volumeSlider</tabstop>
+  <tabstop>stopButton</tabstop>
+  <tabstop>pauseButton</tabstop>
+  <tabstop>resumeButton</tabstop>
+  <tabstop>duration</tabstop>
+  <tabstop>minDelay</tabstop>
+  <tabstop>maxDelay</tabstop>
+  <tabstop>selectFolder</tabstop>
+  <tabstop>playButton</tabstop>
+  <tabstop>hideCheck</tabstop>
+  <tabstop>normalizeCheck</tabstop>
+  <tabstop>premiumButton</tabstop>
+  <tabstop>folderDisplay</tabstop>
+  <tabstop>outputDisplay</tabstop>
+ </tabstops>
+</ui>

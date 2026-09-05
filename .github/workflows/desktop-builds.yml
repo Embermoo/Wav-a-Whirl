@@ -1,0 +1,39 @@
+name: Desktop build checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            arch: linux_gcc_64
+          - os: macos-14
+            arch: clang_64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.11.0'
+          arch: ${{ matrix.arch }}
+          modules: 'qtmultimedia qtshadertools'
+          cache: true
+      - name: Configure application and regression tests
+        run: cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release -DWAV_BUILD_TESTS=ON
+      - name: Compile
+        run: cmake --build build-ci --parallel 2
+      # Audio regression tests require native playback verification. A compile
+      # check is not evidence that audio devices and codecs work on this OS.
+      - name: Save configure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: configure-log-${{ matrix.os }}
+          path: build-ci/CMakeFiles/CMakeConfigureLog.yaml
+          if-no-files-found: ignore
