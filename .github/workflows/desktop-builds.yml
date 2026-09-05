@@ -47,7 +47,12 @@ jobs:
           fi
       - name: Check packaged startup
         shell: bash
-        run: python3 scripts/check-packaged-startup.py package
+        run: |
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            xvfb-run -a python3 scripts/check-packaged-startup.py package
+          else
+            python3 scripts/check-packaged-startup.py package
+          fi
       - name: Archive test build
         shell: bash
         run: tar -czf Wav-a-Whirl-1.1-${{ matrix.package }}-test.tar.gz -C package .

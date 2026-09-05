@@ -15,6 +15,6 @@ Qt libraries and media plugins are bundled. Do not separate files from the app.
 Source.tar.gz contains this build's application source. See LICENSE for GPLv3.
 Dependency license/source notices must be finalized before a public release.
 
-CI verifies compilation, packaging, and a brief offscreen startup. It does NOT
+CI verifies compilation, packaging, and a brief desktop startup (a virtual X11 display on Linux). It does NOT
 verify audible playback, volume, codecs, or device behavior. Use TESTING.md to
 record native testing results.
