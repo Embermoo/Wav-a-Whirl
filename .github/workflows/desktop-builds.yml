@@ -16,7 +16,7 @@ jobs:
             package: linux-x86_64
           - os: macos-14
             arch: clang_64
-            package: macos-arm64
+            package: macos-universal
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7.0.1
@@ -27,7 +27,13 @@ jobs:
           modules: 'qtmultimedia qtshadertools'
           cache: true
       - name: Configure application and regression tests
-        run: cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release -DWAV_BUILD_TESTS=ON -DWAV_DEPLOY_RUNTIME=ON -DCMAKE_INSTALL_LIBDIR=lib
+        shell: bash
+        run: |
+          args=()
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            args+=("-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" "-DCMAKE_OSX_DEPLOYMENT_TARGET=13.0")
+          fi
+          cmake -S . -B build-ci -DCMAKE_BUILD_TYPE=Release -DWAV_BUILD_TESTS=ON -DWAV_DEPLOY_RUNTIME=ON -DCMAKE_INSTALL_LIBDIR=lib "${args[@]}"
       - name: Compile
         run: cmake --build build-ci --parallel 2
       - name: Bundle runtime and source
@@ -40,7 +46,7 @@ jobs:
           if [[ "$RUNNER_OS" == "macOS" ]]; then
             mv package/Main.app package/Wav-a-Whirl.app
             codesign --force --deep --sign - package/Wav-a-Whirl.app
-            file package/Wav-a-Whirl.app/Contents/MacOS/Main
+            python3 scripts/check-macos-universal.py package/Wav-a-Whirl.app
           else
             cp scripts/run-linux.sh package/Wav-a-Whirl.sh
             chmod +x package/Wav-a-Whirl.sh
